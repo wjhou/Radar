@@ -1,4 +1,4 @@
-# <span style="font-variant:small-caps;">RADAR</span>: Enhancing Radiology Report Generation with Supplementary Knowledge Injection
+# <img src="figure/radar.png?raw=true" alt="Alt" height="38" style="vertical-align:middle;">  <span style="font-variant:small-caps;">RADAR</span>: Enhancing Radiology Report Generation with Supplementary Knowledge Injection
 
 This repository is the implementation of [RADAR: Enhancing Radiology Report Generation with Supplementary Knowledge Injection](https://aclanthology.org/2024.findings-emnlp.528/). Before running the code, please install the prerequisite libraries, and follow our instructions to replicate the experiments.
 
