@@ -34,7 +34,7 @@ Please specific `folder` that contains `annotation.json`
 ./script/annotate.sh folder
 ```
 
-Example: `./script/annotate.sh ./data/mimic_cxr/annotation.json`
+Example: `./script/annotate.sh ./data/mimic_cxr`
 
 ### 2. Extract Clinical Context from Datasets
 
