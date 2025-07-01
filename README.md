@@ -28,25 +28,28 @@ conda activate radar
 
 ### 1. Semi-Structured Report as Knowledge
 
-Please specific `folder` that contains `annotation.json`
+- Download the CheXbert checkpoint `chexbert.pth` into the `./checkpoints/` folder
+- Put `annotation.json` into the `./data/mimic_cxr/` folder
+- Run the following script:
 
 ```
-./script/annotate.sh folder
+./script/annotate_reference.sh
 ```
 
-Example: `./script/annotate.sh ./data/mimic_cxr`
+This produces two annotations:
+
+- `observation.json`: contains the observations of each study
+- `sentence_observation.json`: contains sentence-observation paris for each report
 
 ### 2. Extract Clinical Context from Datasets
 
 Please follow [MIMIC-Code](https://github.com/MIT-LCP/mimic-code/tree/main/mimic-iv-cxr) to extract clinical context from the MIMIC-CXR dataset.
 
-In addition, we provide the files of CheXpert Plus and IU X-ray in the `data` folder.
-
 ## Stage I: Preliminary Findings Generation
 
 ### Stage 1.1 Fine-tuning BLIP-3 on the MIMIC-CXR dataset
 
-Four parameters are required to run the code of the Stage 2:
+Four parameters are required to run the code of the Stage 1/2:
 
 - debug: whether debugging the code (0 for debugging and 1 for running)
 - date: date of running the code (checkpoint identifier)
@@ -64,25 +67,37 @@ Example: `./script/run_mimic_cxr.sh 0 20250727 0 0`
 Generate Findings and Annotate Observations with [CheXbert](https://github.com/stanfordmlgroup/CheXbert):
 
 ```
-./script/inference.sh 1 20250727 0 # Generate Findings
-./script/annotate_pf.sh # Annotate Observations of Preliminary Findings
+# Generate Preliminary Findings
+chmod +x ./script/inference.sh
+./script/inference.sh 1 20250727 0
+
+# Annotate Observations of Preliminary Findings
+chmod +x ./script/annotate_hypothesis.sh
+./script/annotate_hypothesis.sh
+
+# Annotate Observations of CXRs
+chmod +x ./script/annotate_image_mimic_cxr.sh
+./script/annotate_image_mimic_cxr.sh
 ```
 
 ## Stage II: Supplementary Findings Augmentation
 
 ### Stage 2.1 Supplementary Knowledge Retrieval
 
+Run the following scripts to retrieve knowledge for the MIMIC-CXR dataset:
+
 ```
-./retrieval/retrieve.sh folder
+chmod +x ./script/retrieve_knowledge_mimic_cxr.sh
+./script/retrieve_knowledge_mimic_cxr.sh
 ```
 
 ### Stage 2.2 Supplementary Knowledge Extraction & Enhanced Radiology Report Generation
 
 ```
-./script/run_mimic_cxr.sh debug date topk
+./script/run_mimic_cxr.sh debug date stage topk
 ```
 
-Example: `./script/run_mimic_cxr.sh 1 20250727 2`
+Example: `./script/run_mimic_cxr.sh 1 20250727 1 2`
 
 ### Data Format
 
@@ -135,4 +150,4 @@ If you use the Radar, please cite our paper:
 
 ## Acknowledges
 
-- We use the same samples of the MIMIC-CXR dataset provided by [Libra](https://github.com/X-iZhang/Libra).
+- We use the same samples from the MIMIC-CXR dataset as provided by [Libra](https://github.com/X-iZhang/Libra).

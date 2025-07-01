@@ -8,6 +8,7 @@ import numpy as np
 from nltk.tokenize import sent_tokenize
 import sys
 import os
+import argparse
 
 
 def annotate(chexbert, tokenizer, reports, batch_size):
@@ -30,12 +31,7 @@ def annotate(chexbert, tokenizer, reports, batch_size):
     return observations
 
 
-def main(folder):
-    chexbert = load_chexbert("../CheXbert/chexbert.pth")
-    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-    all_data = json.load(
-        open(os.path.join(folder, "annotation.json"), "r", encoding="utf-8")
-    )
+def main(args, all_data):
 
     reports = set()
     sentences = set()
@@ -76,11 +72,6 @@ def main(folder):
         if len(obs) == 0:
             continue
         id2obs[idx] = list(obs)
-    json.dump(
-        id2obs,
-        open(os.path.join(folder, "observation.json"), "w", encoding="utf-8"),
-        indent=4,
-    )
 
     sentences = list(sentences)
     batch_size = 4
@@ -110,14 +101,27 @@ def main(folder):
             report2obs[report].append(
                 {"sentence": sentence, "observations": list(sentence2obs[sentence])}
             )
-
-    json.dump(
-        report2obs,
-        open(os.path.join(folder, "sentence_observation.json"), "w", encoding="utf-8"),
-        indent=4,
-    )
+    return id2obs, report2obs
 
 
 if __name__ == "__main__":
-    folder = sys.argv[1]
-    main(folder)
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("--annotation_path", type=str)
+    parser.add_argument("--chexbert_path", type=str)
+    parser.add_argument("--output_observation_path", type=str)
+    parser.add_argument("--output_sentence_observation_path", type=str)
+    args = parser.parse_args()
+    chexbert = load_chexbert(args.chexbert_path)
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+    all_data = json.load(open(args.annotation_path, "r", encoding="utf-8"))
+    id2obs, report2obs = main(args, all_data)
+    json.dump(
+        id2obs,
+        open(args.output_observation_path, "w", encoding="utf-8"),
+        indent=4,
+    )
+    json.dump(
+        report2obs,
+        open(args.output_sentence_observation_path, "w", encoding="utf-8"),
+        indent=4,
+    )
