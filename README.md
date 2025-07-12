@@ -101,6 +101,8 @@ Example: `./script/run_mimic_cxr.sh 1 20250727 1 2`
 
 ### Data Format
 
+We provide [code](data_preparation/README.md) to convert the data format from [Libra](https://github.com/X-iZhang/Libra) to the format used in our work.
+
 #### Annotation
 
 ```json
