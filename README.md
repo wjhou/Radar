@@ -24,6 +24,25 @@ conda env create -f environment.yml # Untested
 conda activate radar
 ```
 
+Here is the minimum requirement to run the code:
+
+```
+conda create -n radar python=3.9.19
+conda activate radar
+conda install nvidia/label/cuda-12.1.0::cuda-toolkit
+conda install pytorch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 pytorch-cuda=12.1 -c pytorch -c nvidia
+pip install transformers==4.41.1
+pip install deepspeed==0.14.2
+pip install numpy==1.26.3
+pip install einops==0.8.0 einops-exts==0.0.4
+pip install peft==0.10.0
+pip install evaluate==0.4.3
+pip install absl-py==2.1.0 rouge-score==0.1.2 nltk==3.8.1
+pip install sentencepiece==0.2.0
+pip install protobuf==4.25.3
+pip install flash-attn==2.5.8 --no-build-isolation
+```
+
 ## Data Preparation and Preprocessing
 
 ### 1. Semi-Structured Report as Knowledge
