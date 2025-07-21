@@ -23,6 +23,7 @@ def preprocess_phi_3_new(sources, tokenizer):
                     rnd["role"] = rnd.pop("from")
             if "value" in rnd:
                 rnd["content"] = rnd.pop("value")
+        tokenizer.chat_template = "{{ bos_token }}{% for message in messages %}{% if (message['role'] == 'user') %}{{'<|user|>' + '\n' + message['content'] + '<|end|>' + '\n' + '<|assistant|>' + '\n'}}{% elif message['role'] == 'system' %}{{ '<|system|>' + '\n' + message['content'] + '<|end|>' + '\n'}}{% elif (message['role'] == 'assistant') %}{{message['content'] + '<|end|>' + '\n'}}{% endif %}{% endfor %}"
         chat_conv = tokenizer.apply_chat_template(source, tokenize=False)
         chat_conv = chat_conv.replace(tokenizer.bos_token, "")
         conversations.append(chat_conv)

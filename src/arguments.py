@@ -21,7 +21,7 @@ class DataArguments:
     clinical_context_path: str = field(default=None)
     knowledge_path: str = field(default=None)
     sentence_knowledge_path: Optional[str] = field(default=None)
-    image_annotations_path: Optional[str] = field(default=None)
+    image_annotation_path: Optional[str] = field(default=None)
     gt_observation_path: Optional[str] = field(default=None)
     lazy_preprocess: bool = False
     image_folder: Optional[str] = field(default=None)
