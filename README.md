@@ -43,6 +43,10 @@ pip install protobuf==4.25.3
 pip install flash-attn==2.5.8 --no-build-isolation
 ```
 
+## Checkpoints
+
+The checkpoints of this repository are available at [houwenjun060/Radar](https://huggingface.co/houwenjun060/Radar).
+
 ## Data Preparation and Preprocessing
 
 ### 1. Semi-Structured Report as Knowledge
@@ -118,11 +122,11 @@ chmod +x ./script/retrieve_knowledge_mimic_cxr.sh
 
 Example: `./script/run_mimic_cxr.sh 1 20250727 1 2`
 
-### Data Format
+## Data Format
 
 We provide [code](data_preparation/README.md) to convert the data format from [Libra](https://github.com/X-iZhang/Libra) to the format used in our work.
 
-#### Annotation
+### Annotation
 
 ```json
 {
@@ -139,7 +143,7 @@ We provide [code](data_preparation/README.md) to convert the data format from [L
 }
 ```
 
-#### Clinical Context
+### Clinical Context
 
 ```json
 {
